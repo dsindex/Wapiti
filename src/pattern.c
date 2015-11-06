@@ -339,9 +339,11 @@ char *pat_exec(const pat_t *pat, const tok_t *tok, uint32_t at) {
 				value = bval[min(-pos - 1, 4)];
 			else if (pos >= (int32_t)T)
 				value = eval[min( pos - (int32_t)T, 4)];
-			else if (col >= tok->cnts[pos])
-				fatal("missing tokens, cannot apply pattern");
-			else
+			else if (col >= tok->cnts[pos]) {
+				fprintf(stderr,"missing tokens, cannot apply pattern\n");
+				if( buffer ) free(buffer);
+				return NULL;
+			} else
 				value = tok->toks[pos][col];
 		}
 		// Next, we handle the command, 's' and 'x' are very simple but

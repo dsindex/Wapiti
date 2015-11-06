@@ -103,8 +103,10 @@ void rdr_freeraw(raw_t *raw) {
  *   Free all memory used by a seq_t object.
  */
 void rdr_freeseq(seq_t *seq) {
-	free(seq->raw);
-	free(seq);
+	if( seq ) {
+		if( seq->raw ) free(seq->raw);
+		free(seq);
+	}
 }
 
 /* rdr_freedat:
@@ -357,6 +359,10 @@ static seq_t *rdr_pattok2seq(rdr_t *rdr, const tok_t *tok) {
 		for (uint32_t x = 0; x < rdr->npats; x++) {
 			// Get the observation and map it to an identifier
 			char *obs = pat_exec(rdr->pats[x], tok, t);
+			if( obs == NULL ) {
+				fprintf(stderr,"pat_exec() return obs NULL\n");
+				continue;
+			}
 			uint64_t id = rdr_mapobs(rdr, obs);
 			if (id == none) {
 				free(obs);
