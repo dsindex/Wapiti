@@ -20,6 +20,7 @@ wapiti
   - use CQDB for fast lookup feature to id
     - labeling mode only
     - modify quark.c, quark.h, model.c, reader.c, reader.h, options.h, options.c
+  - remove fatal() in pat_exec()
 
 - Installation
 ```
