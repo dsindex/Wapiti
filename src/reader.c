@@ -73,6 +73,7 @@ rdr_t *rdr_new(bool autouni) {
 	rdr->pats = NULL;
 	rdr->lbl = qrk_new();
 	rdr->obs = qrk_new();
+	rdr->cqdb = NULL;
 	return rdr;
 }
 
@@ -547,8 +548,9 @@ void rdr_load(rdr_t *rdr, FILE *file) {
 			}
 		}
 	}
-	qrk_load(rdr->lbl, file);
-	qrk_load(rdr->obs, file);
+	// for CQDB, add third param
+	qrk_load(rdr->lbl, file, NULL);
+	qrk_load(rdr->obs, file, rdr->cqdb);
 }
 
 /* rdr_save:

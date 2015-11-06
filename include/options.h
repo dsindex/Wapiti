@@ -85,6 +85,7 @@ struct opt_s {
 	bool      lblpost;
 	uint32_t  nbest;
 	bool      force;
+	char*     cqdb;
 	// Options for model dump
 	int       prec;
 	bool      all;

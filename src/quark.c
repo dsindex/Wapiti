@@ -31,6 +31,7 @@
 #include <stdint.h>
 #include <stdio.h>
 #include <string.h>
+#include <limits.h>
 
 #include "quark.h"
 #include "tools.h"
@@ -64,9 +65,14 @@ struct qrk_s {
 		uint64_t  id;
 		char      key[];
 	} **leafs;
-	bool     lock;
-	uint64_t count;
-	uint64_t size;
+	bool            lock;
+	uint64_t        count;
+	uint64_t        size;
+	// for CQDB
+	FILE*           cqdb_fp;
+	cqdb_writer_t*  cqdb_dbw;
+	char*           cqdb_block;
+	cqdb_t*         cqdb_db;
 };
 
 #define qrk_lf2nd(lf)  ((node_t *)((intptr_t)(lf) |  1))
@@ -86,6 +92,11 @@ qrk_t *qrk_new(void) {
 	qrk->lock  = false;
 	qrk->size  = size;
 	qrk->leafs = xmalloc(sizeof(leaf_t *) * size);
+	// for CQDB
+	qrk->cqdb_fp    = NULL;
+	qrk->cqdb_dbw   = NULL;
+	qrk->cqdb_block = NULL;
+	qrk->cqdb_db    = NULL;
 	return qrk;
 }
 
@@ -112,6 +123,8 @@ void qrk_free(qrk_t *qrk) {
 		}
 	}
 	free(qrk->leafs);
+	// for CQDB
+	if( qrk->cqdb_db ) unload_cqdb(qrk->cqdb_block, qrk->cqdb_db);	
 	free(qrk);
 }
 
@@ -122,6 +135,12 @@ void qrk_free(qrk_t *qrk) {
  *   called on the same map from different thread without locking.
  */
 uint64_t qrk_str2id(qrk_t *qrk, const char *key) {
+	// for CQDB
+	if( qrk->cqdb_db ) {
+		int id_cqdb = cqdb_to_id(qrk->cqdb_db, key);
+		if( id_cqdb != CQDB_ERROR_NOTFOUND ) 
+			return (uint64_t)id_cqdb;
+	}
 	const uint8_t *raw = (void *)key;
 	const size_t   len = strlen(key);
 	// We first take care of the empty trie case so later we can safely
@@ -238,17 +257,33 @@ void qrk_save(const qrk_t *qrk, FILE *file) {
  *   not already present. If all keys are single lines and the given map is
  *   initilay empty, this will load a map exactly as saved by qrk_save.
  */
-void qrk_load(qrk_t *qrk, FILE *file) {
+void qrk_load(qrk_t *qrk, FILE *file, char* cqdb) {
 	uint64_t cnt = 0;
 	if (fscanf(file, "#qrk#%"SCNu64"\n", &cnt) != 1) {
 		if (ferror(file) != 0)
 			pfatal("cannot read from file");
 		pfatal("invalid format");
 	}
+	// for CQDB, create cqdb file and writer if cqdb file not exists, no action if exists
+	if( cqdb != NULL ) {
+		qrk->cqdb_fp = NULL; qrk->cqdb_dbw = NULL;
+		open_cqdb(cqdb, &(qrk->cqdb_fp), &(qrk->cqdb_dbw));
+	}
+	uint64_t id;
 	for (uint64_t n = 0; n < cnt; ++n) {
 		char *str = ns_readstr(file);
-		qrk_str2id(qrk, str);
+		id = qrk_str2id(qrk, str);
+		// insert to CQDB if cqdb writer is ready(i.e, cqdb file not exists)
+		if( cqdb != NULL && qrk->cqdb_dbw != NULL ) {
+			// unit64_t -> int -> unit32_t, check possible loss
+			if( id <= INT_MAX ) cqdb_writer_put(qrk->cqdb_dbw, str, id);
+		}
 		free(str);
+	}
+	// for CQDB, load cqdb
+	if( cqdb != NULL ) {
+		close_cqdb(qrk->cqdb_fp, qrk->cqdb_dbw);
+		load_cqdb(cqdb, &(qrk->cqdb_block), &(qrk->cqdb_db));
 	}
 }
 

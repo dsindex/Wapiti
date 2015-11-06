@@ -293,6 +293,10 @@ void mdl_load(mdl_t *mdl, FILE *file) {
 		else
 			fatal(err);
 	}
+	// for CQDB
+	if( mdl->opt->mode == 1 && mdl->opt->cqdb != NULL ) {
+		mdl->reader->cqdb = mdl->opt->cqdb;
+	}
 	rdr_load(mdl->reader, file);
 	mdl_sync(mdl);
 	for (uint64_t i = 0; i < nact; i++) {

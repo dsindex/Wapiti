@@ -52,6 +52,7 @@ struct rdr_s {
 	pat_t    **pats;       // [P]  List of precompiled patterns
 	qrk_t     *lbl;        //      Labels database
 	qrk_t     *obs;        //      Observation database
+	char*     cqdb;        //      for CQDB file path from mdl->opt->cqdb
 };
 
 rdr_t *rdr_new(bool autouni);

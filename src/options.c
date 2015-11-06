@@ -98,6 +98,7 @@ static void opt_help(const char *pname) {
 		"\t-p | --post             label using posteriors\n"
 		"\t-n | --nbest    INT     output n-best list\n"
 		"\t   | --force            use forced decoding\n"
+		"\t-q | --cqdb     FILE    cqdb file, create if not exists, load if exists\n"
 		"\n"
 		"Dump mode\n"
 		"    %1$s dump [options] [input model] [output text]\n"
@@ -132,7 +133,7 @@ const opt_t opt_defaults = {
 	.rprop = {.stpmin = 1e-8, .stpmax = 50.0, .stpinc = 1.2, .stpdec = 0.5,
 	          .cutoff = false},
 	.label   = false,    .check   = false, .outsc = false,
-	.lblpost = false,    .nbest   = 1,     .force = false,
+	.lblpost = false,    .nbest   = 1,     .force = false, .cqdb = NULL,
 	.prec    = 5,        .all     = false,
 };
 
@@ -184,6 +185,7 @@ struct {
 	{1, "-p", "--post",    'B', offsetof(opt_t, lblpost     )},
 	{1, "-n", "--nbest",   'U', offsetof(opt_t, nbest       )},
 	{1, "##", "--force",   'B', offsetof(opt_t, force       )},
+	{1, "-q", "--cqdb",    'S', offsetof(opt_t, cqdb        )},
 	{2, "-p", "--prec",    'U', offsetof(opt_t, prec        )},
 	{2, "##", "--all",     'B', offsetof(opt_t, all         )},
 	{3, "-m", "--model",   'S', offsetof(opt_t, model       )},
