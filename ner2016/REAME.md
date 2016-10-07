@@ -91,14 +91,36 @@ U:tag-1 LL=%X[-2,1]
 U:wrd-1 L=%X[-1,0]
 U:tag-1 L=%X[-1,1]
 
-U:wrd-1 X=%X[0,0]
-U:tag-1 X=%X[0,1]
+*:wrd-1 X=%X[0,0]
+*:tag-1 X=%X[0,1]
 
 U:wrd-1 R=%X[1,0]
 U:tag-1 R=%X[1,1]
 
 U:wrd-1 RR=%X[2,0]
 U:tag-1 RR=%X[2,1]
+
+*:Pre-1 X=%m[ 0,0,"^.?"]
+*:Pre-2 X=%m[ 0,0,"^.?.?"]
+*:Pre-3 X=%m[ 0,0,"^.?.?.?"]
+*:Pre-4 X=%m[ 0,0,"^.?.?.?.?"]
+
+*:Suf-1 X=%m[ 0,0,".?$"]
+*:Suf-2 X=%m[ 0,0,".?.?$"]
+*:Suf-3 X=%m[ 0,0,".?.?.?$"]
+*:Suf-4 X=%m[ 0,0,".?.?.?.?$"]
+
+*:Caps? L=%t[-1,0,"\u"]
+*:Caps? X=%t[ 0,0,"\u"]
+*:Caps? R=%t[ 1,0,"\u"]
+
+*:Punc? L=%t[-1,0,"\p"]
+*:Punc? X=%t[ 0,0,"\p"]
+*:Punc? R=%t[ 1,0,"\p"]
+
+*:Numb? L=%t[-1,0,"\d"]
+*:Numb? X=%t[ 0,0,"\d"]
+*:Numb? R=%t[ 1,0,"\d"]
 ```
 - 학습 및 평가
 ```
@@ -107,21 +129,10 @@ $ ./crf.sh -v -v
 - 결과
 ```
 # 타깃 클래스는 'O'가 아닌 것으로 가정한 경우
-number_of_sent = 501
-number_of_success = 16440
-number_of_failure = 953
-number_of_success_pos_rc = 1824
-number_of_failure_pos_rc = 732
-number_of_success_neg_rc = 14616
-number_of_failure_neg_rc = 221
-number_of_success_pos_pc = 1824
-number_of_success_neg_pc = 14616
-number_of_failure_pos_pc = 489
-number_of_failure_neg_pc = 464
-recall(positive) = 0.713615
-recall(negative) = 0.985105
-precision(positive) = 0.788586
-precision(negative) = 0.969231
-accuracy  = 0.878909
-fmeasure(positive) = 0.749230
+recall(positive) = 0.750391
+recall(negative) = 0.986520
+precision(positive) = 0.823176
+precision(negative) = 0.971719
+accuracy  = 0.897447
+fmeasure(positive) = 0.785100
 ```
