@@ -13,11 +13,15 @@ sys.setdefaultencoding('utf-8')
 
 number_of_sent = 0
 number_of_success = 0
-number_of_success_pos = 0
-number_of_success_neg = 0
+number_of_success_pos_rc = 0
+number_of_success_neg_rc = 0
+number_of_success_pos_pc = 0
+number_of_success_neg_pc = 0
 number_of_failure = 0
-number_of_failure_pos = 0
-number_of_failure_neg = 0
+number_of_failure_pos_rc = 0
+number_of_failure_neg_rc = 0
+number_of_failure_pos_pc = 0
+number_of_failure_neg_pc = 0
 
 def spill(bucket) :
 	'''
@@ -26,11 +30,15 @@ def spill(bucket) :
 	'''
 	global number_of_sent
 	global number_of_success
-	global number_of_success_pos
-	global number_of_success_neg
+	global number_of_success_pos_rc
+	global number_of_success_neg_rc
+	global number_of_success_pos_pc
+	global number_of_success_neg_pc
 	global number_of_failure
-	global number_of_failure_pos
-	global number_of_failure_neg
+	global number_of_failure_pos_rc
+	global number_of_failure_neg_rc
+	global number_of_failure_pos_pc
+	global number_of_failure_neg_pc
 
 	for line in bucket :
 		try : 
@@ -41,25 +49,34 @@ def spill(bucket) :
 		except :
 			sys.stderr.write("format error : %s\n" % (line))
 			return 0
-		if answer != 'O' : target = True
-		else : target = False
 
 		ct_score = float(predict_info.split('/')[1])
-
-		if target :
+		# recall
+		if answer != 'O' :
 			if answer == predict :
 				number_of_success += 1
-				number_of_success_pos += 1
+				number_of_success_pos_rc += 1
 			else :
 				number_of_failure += 1
-				number_of_failure_pos += 1
+				number_of_failure_pos_rc += 1
 		else :
 			if answer == predict :
 				number_of_success += 1
-				number_of_success_neg += 1
+				number_of_success_neg_rc += 1
 			else :
 				number_of_failure += 1
-				number_of_failure_neg += 1
+				number_of_failure_neg_rc += 1
+		# precision
+		if predict != 'O' :
+			if predict == answer :
+				number_of_success_pos_pc += 1
+			else :
+				number_of_failure_pos_pc += 1
+		else :
+			if predict == answer :
+				number_of_success_neg_pc += 1
+			else :
+				number_of_failure_neg_pc += 1
 
 		if answer == predict : print line + '\t' + 'SUCCESS'
 		else : print line + '\t' + 'FAILURE'
@@ -100,14 +117,24 @@ if __name__ == '__main__':
 
 	sys.stderr.write("number_of_sent = %d\n" % (number_of_sent))
 	sys.stderr.write("number_of_success = %d\n" % (number_of_success))
-	sys.stderr.write("number_of_success_pos = %d\n" % (number_of_success_pos))
-	sys.stderr.write("number_of_success_neg = %d\n" % (number_of_success_neg))
 	sys.stderr.write("number_of_failure = %d\n" % (number_of_failure))
-	sys.stderr.write("number_of_failure_pos = %d\n" % (number_of_failure_pos))
-	sys.stderr.write("number_of_failure_neg = %d\n" % (number_of_failure_neg))
-	precision_pos = number_of_success_pos / float(number_of_success_pos + number_of_failure_pos)
+	sys.stderr.write("number_of_success_pos_rc = %d\n" % (number_of_success_pos_rc))
+	sys.stderr.write("number_of_failure_pos_rc = %d\n" % (number_of_failure_pos_rc))
+	sys.stderr.write("number_of_success_neg_rc = %d\n" % (number_of_success_neg_rc))
+	sys.stderr.write("number_of_failure_neg_rc = %d\n" % (number_of_failure_neg_rc))
+	sys.stderr.write("number_of_success_pos_pc = %d\n" % (number_of_success_pos_pc))
+	sys.stderr.write("number_of_success_neg_pc = %d\n" % (number_of_success_neg_pc))
+	sys.stderr.write("number_of_failure_pos_pc = %d\n" % (number_of_failure_pos_pc))
+	sys.stderr.write("number_of_failure_neg_pc = %d\n" % (number_of_failure_neg_pc))
+	recall_pos = number_of_success_pos_rc / float(number_of_success_pos_rc + number_of_failure_pos_rc)
+	sys.stderr.write("recall(positive) = %f\n" % (recall_pos))
+	recall_neg = number_of_success_neg_rc / float(number_of_success_neg_rc + number_of_failure_neg_rc)
+	sys.stderr.write("recall(negative) = %f\n" % (recall_neg))
+	precision_pos = number_of_success_pos_pc / float(number_of_success_pos_pc + number_of_failure_pos_pc)
 	sys.stderr.write("precision(positive) = %f\n" % (precision_pos))
-	precision_neg = number_of_success_neg / float(number_of_success_neg + number_of_failure_neg)
+	precision_neg = number_of_success_neg_pc / float(number_of_success_neg_pc + number_of_failure_neg_pc)
 	sys.stderr.write("precision(negative) = %f\n" % (precision_neg))
 	accuracy = (precision_pos + precision_neg) / 2
 	sys.stderr.write("accuracy  = %f\n" % (accuracy))
+	fmeasure_pos = 2*(precision_pos * recall_pos) / float(precision_pos + recall_pos)
+	sys.stderr.write("fmeasure(positive) = %f\n" % (fmeasure_pos))
