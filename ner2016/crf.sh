@@ -64,8 +64,7 @@ if [ ${#} != 0 ]; then print_usage_and_exit 1; fi
 
 # current dir of this script
 CDIR=$(readlink -f $(dirname $(readlink -f ${BASH_SOURCE[0]})))
-
-[[ -f ${CDIR}/env.sh ]] && . ${CDIR}/env.sh || exit
+PDIR=$(readlink -f $(dirname $(readlink -f ${BASH_SOURCE[0]}))/..)
 
 # -----------------------------------------------------------------------------
 # functions
@@ -78,46 +77,16 @@ CDIR=$(readlink -f $(dirname $(readlink -f ${BASH_SOURCE[0]})))
 # -----------------------------------------------------------------------------
 # main 
 
-make_calmness
-child_verbose=""
-if (( VERBOSE_MODE > 1 )); then
-	revert_calmness
-	child_verbose="-v -v"
-fi
+wapiti=${PDIR}/install/bin/wapiti
+python=/usr/bin/python
 
-if [ ! -e ${CDIR}/wdir ]; then
-	mkdir ${CDIR}/wdir
-fi
-WDIR=${CDIR}/wdir
-if [ ! -e ${CDIR}/log ]; then
-	mkdir ${CDIR}/log
-fi
-LDIR=${CDIR}/log
+${python} ${CDIR}/json2base.py ${CDIR}/train.json > ${CDIR}/crf.train
+${python} ${CDIR}/json2base.py ${CDIR}/dev.json > ${CDIR}/crf.dev
 
-function generate_model {
-	local _PAT=$1
-	local _MODEL=$2
-
-	# train
-	${python} ${CDIR}/align.py --verbose < ${WDIR}/deptree.txt.v2.train > ${WDIR}/deptree.txt.v3.train 2> ${WDIR}/deptree.txt.v3.train.err
-	${python} ${CDIR}/crf_form.py -p ${DHA_RES} --mode=0 < ${WDIR}/deptree.txt.v3.train > ${WDIR}/crf.train
-	${wapiti} train -t 8 -c -p ${_PAT} ${WDIR}/crf.train ${_MODEL}
-
-	# test
-	${python} ${CDIR}/align.py --verbose < ${WDIR}/deptree.txt.v2.test > ${WDIR}/deptree.txt.v3.test 2> ${WDIR}/deptree.txt.v3.test.err
-	${python} ${CDIR}/crf_form.py -p ${DHA_RES} --mode=1 < ${WDIR}/deptree.txt.v3.test > ${WDIR}/crf.test
-
-	rm -rf ${_MODEL}.cqdb
-	${wapiti} label -m ${_MODEL} -q ${_MODEL}.cqdb -s ${WDIR}/crf.test ${WDIR}/crf.test.out
-	${python} ${CDIR}/crf_eval.py < ${WDIR}/crf.test.out > ${WDIR}/crf.test.out.info 2> ${WDIR}/crf.test.out.eval
-}
-
-# create crf.model, crf.model.cqdb
-generate_model ${CDIR}/crf.pattern ${WDIR}/crf.model
-cp -rf ${WDIR}/crf.model ${WDIR}/crf.model.${NPC_VER}
-cp -rf ${WDIR}/crf.model.cqdb ${WDIR}/crf.model.cqdb.${NPC_VER}
-
-close_fd
+${wapiti} train -t 8 -c -p ${CDIR}/crf.pattern ${CDIR}/crf.train ${CDIR}/crf.model
+rm -rf ${CDIR}/crf.cqdb
+${wapiti} label -m ${CDIR}/crf.model -q ${CDIR}/crf.cqdb -s ${CDIR}/crf.dev ${CDIR}/crf.dev.out
+${python} ${CDIR}/crf_eval.py < ${CDIR}/crf.dev.out > ${CDIR}/crf.dev.out.info
 
 # end main
 # -----------------------------------------------------------------------------
