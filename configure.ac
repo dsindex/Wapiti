@@ -5,7 +5,6 @@ AC_INIT([wapiti],[1.1.0],[https://github.com/dsindex],[wapiti])
 PACKAGE=wapiti
 
 AC_PREREQ(2.50)
-AC_COPYRIGHT([Copyright refer to licence file])
 
 AC_CONFIG_AUX_DIR([build])
 

@@ -1,5 +1,5 @@
 
-INCLUDES  = 
+AM_CPPFLAGS = 
 
 OPTS = #-DDEBUG
 
