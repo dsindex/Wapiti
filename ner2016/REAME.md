@@ -6,10 +6,13 @@ NER Task 2016
 - 데이터 구성
 ```
 - train 데이터는 3549문장(63865어절)
+  - train.json
 - development 데이터는 500문장(9101어절)
+  - dev.json
 - gazette 사전은 3755 단어
+  - gazette
 - 개체명 유형은 'DT(date) LC(location) OG(organization) PS(person) TI(time)'
-- 데이터 샘플
+- 데이터 샘플(by json2base.py)
 1 데이비드 NNP B_PS
 2 베컴 NNP I
 2 ( SS O
