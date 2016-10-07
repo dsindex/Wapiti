@@ -1,0 +1,14 @@
+U:wrd-1 LL=%X[-2,0]
+U:tag-1 LL=%X[-2,1]
+
+U:wrd-1 L=%X[-1,0]
+U:tag-1 L=%X[-1,1]
+
+U:wrd-1 X=%X[0,0]
+U:tag-1 X=%X[0,1]
+
+U:wrd-1 R=%X[1,0]
+U:tag-1 R=%X[1,1]
+
+U:wrd-1 RR=%X[2,0]
+U:tag-1 RR=%X[2,1]
