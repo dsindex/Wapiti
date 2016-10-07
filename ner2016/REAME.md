@@ -149,3 +149,6 @@ precision(negative) = 0.972429
 accuracy  = 0.898431
 fmeasure(positive) = 0.788238
 ```
+
+- 참고
+  - 2016 국어 정보 처리 시스템 - 지정 분야: 개체명 인식 시스템 개발 및 적용( https://github.com/krikit/annie )
