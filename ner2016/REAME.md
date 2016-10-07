@@ -100,6 +100,8 @@ U:tag-1 R=%X[1,1]
 U:wrd-1 RR=%X[2,0]
 U:tag-1 RR=%X[2,1]
 
+U:tag-2 XR=%X[0,1]/%X[1,1]
+
 *:Pre-1 X=%m[ 0,0,"^.?"]
 *:Pre-2 X=%m[ 0,0,"^.?.?"]
 *:Pre-3 X=%m[ 0,0,"^.?.?.?"]
@@ -129,10 +131,21 @@ $ ./crf.sh -v -v
 - 결과
 ```
 # 타깃 클래스는 'O'가 아닌 것으로 가정한 경우
-recall(positive) = 0.750391
+number_of_sent = 501
+number_of_success = 16567
+number_of_failure = 826
+number_of_success_pos_rc = 1930
+number_of_failure_pos_rc = 626
+number_of_success_neg_rc = 14637
+number_of_failure_neg_rc = 200
+number_of_success_pos_pc = 1930
+number_of_success_neg_pc = 14637
+number_of_failure_pos_pc = 411
+number_of_failure_neg_pc = 415
+recall(positive) = 0.755086
 recall(negative) = 0.986520
-precision(positive) = 0.823176
-precision(negative) = 0.971719
-accuracy  = 0.897447
-fmeasure(positive) = 0.785100
+precision(positive) = 0.824434
+precision(negative) = 0.972429
+accuracy  = 0.898431
+fmeasure(positive) = 0.788238
 ```
