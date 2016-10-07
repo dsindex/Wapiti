@@ -41,7 +41,7 @@ def spill(bucket) :
 		except :
 			sys.stderr.write("format error : %s\n" % (line))
 			return 0
-		if answer != 'O' and answer != 'I' : target = True
+		if answer != 'O' : target = True
 		else : target = False
 
 		ct_score = float(predict_info.split('/')[1])
