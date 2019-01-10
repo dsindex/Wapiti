@@ -9,7 +9,8 @@ static raw_t *api_str2raw(char *seq) {
 
   raw_t *raw = xmalloc(sizeof(raw_t) + sizeof(char *) * size);
 
-  for (line = __strtok_r(seq, "\t", &save) ; line ; line = __strtok_r(NULL, "\t", &save)) {
+  //for (line = __strtok_r(seq, "\t", &save) ; line ; line = __strtok_r(NULL, "\t", &save)) {
+  for (line = strtok_r(seq, "\t", &save) ; line ; line = strtok_r(NULL, "\t", &save)) {
     // Make sure there's room and add the line
     if (cnt == size) {
       size *= 1.4;
