@@ -40,12 +40,12 @@ $ ./crf.sh -v -v
 
 - 결과
 ```
-processed 46666 tokens with 5648 phrases; found: 5596 phrases; correct: 4599.
-accuracy:  96.16%; precision:  82.18%; recall:  81.43%; FB1:  81.80
-              LOC: precision:  86.66%; recall:  85.67%; FB1:  86.16  1649
-             MISC: precision:  78.35%; recall:  74.22%; FB1:  76.23  665
-              ORG: precision:  76.88%; recall:  73.09%; FB1:  74.94  1579
-              PER: precision:  84.26%; recall:  88.74%; FB1:  86.45  1703
+processed 46666 tokens with 5648 phrases; found: 5568 phrases; correct: 4646.
+accuracy:  96.37%; precision:  83.44%; recall:  82.26%; FB1:  82.85
+              LOC: precision:  86.57%; recall:  86.21%; FB1:  86.39  1661
+             MISC: precision:  79.43%; recall:  74.79%; FB1:  77.04  661
+              ORG: precision:  81.52%; recall:  74.35%; FB1:  77.77  1515
+              PER: precision:  83.65%; recall:  89.55%; FB1:  86.50  1731
 
 ```
 
