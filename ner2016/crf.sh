@@ -81,8 +81,8 @@ wapiti=${PDIR}/install/bin/wapiti
 python=/usr/bin/python
 perl=/usr/bin/perl
 
-${python} ${CDIR}/json2base.py ${CDIR}/train.json > ${CDIR}/crf.train
-${python} ${CDIR}/json2base.py ${CDIR}/dev.json > ${CDIR}/crf.dev
+cp -rf ${CDIR}/train.txt ${CDIR}/crf.train
+cp -rf ${CDIR}/dev.txt ${CDIR}/crf.dev
 
 ${wapiti} train -t 8 -c -p ${CDIR}/crf.pattern ${CDIR}/crf.train ${CDIR}/crf.model
 rm -rf ${CDIR}/crf.cqdb

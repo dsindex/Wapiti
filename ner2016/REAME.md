@@ -6,9 +6,9 @@ NER Task 2016
 - 데이터 구성
 ```
 - train 데이터는 3549문장(63865어절)
-  - train.json
+  - train.txt
 - development 데이터는 500문장(9101어절)
-  - dev.json
+  - dev.txt
 - gazette 사전은 3755 단어
   - gazette
 - 개체명 유형은 'DT(date) LC(location) OG(organization) PS(person) TI(time)'
