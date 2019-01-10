@@ -49,3 +49,6 @@ accuracy:  96.37%; precision:  83.44%; recall:  82.26%; FB1:  82.85
 
 ```
 
+- 참고
+  - [final results of 2003 shared task for NER](https://www.clips.uantwerpen.be/conll2003/ner/)
+
