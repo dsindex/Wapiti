@@ -12,44 +12,7 @@ NER Task 2016
 - gazette 사전은 3755 단어
   - gazette
 - 개체명 유형은 'DT(date) LC(location) OG(organization) PS(person) TI(time)'
-- 데이터 샘플(by json2base.py)
-1 데이비드 NNP B_PS
-2 베컴 NNP I
-2 ( SS O
-2 33 SN O
-3 · SP O
-4 LA SL B_OG
-4 갤럭시 NNP I
-4 ) SS O
-4 이 JKS O
-5 8 SN B_DT
-5 일 NNB I
-5 ( SS O
-5 한국 NNP B_LC
-5 시간 NNG O
-5 ) SS O
-6 미국 NNP B_LC
-6 프로 NNG O
-6 축구 NNG O
-6 ( SS O
-6 MLS SL B_OG
-6 ) SS O
-7 출입 NNG O
-8 기자단 NNG O
-8 이 JKS O
-9 뽑 VV O
-9 은 ETM O
-10 금주 NNG B_DT
-10 의 JKG O
-11 선수 NNG O
-11 로 JKB O
-12 선정 NNG O
-12 되 XSV O
-12 었 EP O
-12 다 EC O
-```
-- 학습데이터를 Wapiti 입력 데이터 포맷에 맞게 변환
-```
+- 학습데이터 샘플
 데이비드	NNP	B_PS
 베컴	NNP	I
 (	SS	O
