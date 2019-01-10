@@ -133,24 +133,15 @@ $ ./crf.sh -v -v
 ```
 - 결과
 ```
-# 타깃 클래스는 'O'가 아닌 것으로 가정한 경우
-number_of_sent = 501
-number_of_success = 16567
-number_of_failure = 826
-number_of_success_pos_rc = 1930
-number_of_failure_pos_rc = 626
-number_of_success_neg_rc = 14637
-number_of_failure_neg_rc = 200
-number_of_success_pos_pc = 1930
-number_of_success_neg_pc = 14637
-number_of_failure_pos_pc = 411
-number_of_failure_neg_pc = 415
-recall(positive) = 0.755086
-recall(negative) = 0.986520
-precision(positive) = 0.824434
-precision(negative) = 0.972429
-accuracy  = 0.898431
-fmeasure(positive) = 0.788238
+processed 17393 tokens with 2190 phrases; found: 1999 phrases; correct: 1603.
+accuracy:  95.25%; precision:  80.19%; recall:  73.20%; FB1:  76.53
+                 : precision:  79.59%; recall:  71.38%; FB1:  75.26  539
+                 : precision:  79.59%; recall:  71.38%; FB1:  75.26  539
+               DT: precision:  95.62%; recall:  89.87%; FB1:  92.66  297
+               LC: precision:  68.95%; recall:  80.25%; FB1:  74.17  277
+               OG: precision:  68.14%; recall:  59.71%; FB1:  63.65  361
+               PS: precision:  86.30%; recall:  72.63%; FB1:  78.88  489
+               TI: precision:  86.11%; recall:  73.81%; FB1:  79.49  36
 ```
 
 - 참고

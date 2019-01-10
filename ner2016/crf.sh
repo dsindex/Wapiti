@@ -79,6 +79,7 @@ PDIR=$(readlink -f $(dirname $(readlink -f ${BASH_SOURCE[0]}))/..)
 
 wapiti=${PDIR}/install/bin/wapiti
 python=/usr/bin/python
+perl=/usr/bin/perl
 
 ${python} ${CDIR}/json2base.py ${CDIR}/train.json > ${CDIR}/crf.train
 ${python} ${CDIR}/json2base.py ${CDIR}/dev.json > ${CDIR}/crf.dev
@@ -86,7 +87,8 @@ ${python} ${CDIR}/json2base.py ${CDIR}/dev.json > ${CDIR}/crf.dev
 ${wapiti} train -t 8 -c -p ${CDIR}/crf.pattern ${CDIR}/crf.train ${CDIR}/crf.model
 rm -rf ${CDIR}/crf.cqdb
 ${wapiti} label -m ${CDIR}/crf.model -q ${CDIR}/crf.cqdb -s ${CDIR}/crf.dev ${CDIR}/crf.dev.out
-${python} ${CDIR}/crf_eval.py < ${CDIR}/crf.dev.out > ${CDIR}/crf.dev.out.info
+${python} ${CDIR}/conv2conll.py < ${CDIR}/crf.dev.out > ${CDIR}/crf.dev.out.conll
+${perl}   ${CDIR}/conlleval.pl < ${CDIR}/crf.dev.out.conll > ${CDIR}/crf.dev.out.eval
 
 # end main
 # -----------------------------------------------------------------------------
