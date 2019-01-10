@@ -102,12 +102,14 @@ perl='env perl'
 
 cp -rf ${CDIR}/train.txt ${CDIR}/crf.train
 cp -rf ${CDIR}/dev.txt ${CDIR}/crf.dev
+cp -rf ${CDIR}/test.txt ${CDIR}/crf.test
 
-${wapiti} train -t 8 -c -p ${CDIR}/crf.pattern ${CDIR}/crf.train ${CDIR}/crf.model
+${wapiti} train --nthread 8 -c -d ${CDIR}/crf.dev -p ${CDIR}/crf.pattern ${CDIR}/crf.train ${CDIR}/crf.model
+
 rm -rf ${CDIR}/crf.cqdb
-${wapiti} label -m ${CDIR}/crf.model -q ${CDIR}/crf.cqdb -s ${CDIR}/crf.dev ${CDIR}/crf.dev.out
-${python} ${CDIR}/conv2conll.py < ${CDIR}/crf.dev.out > ${CDIR}/crf.dev.out.conll
-${perl}   ${CDIR}/conlleval.pl < ${CDIR}/crf.dev.out.conll > ${CDIR}/crf.dev.out.eval
+${wapiti} label -m ${CDIR}/crf.model -q ${CDIR}/crf.cqdb -s ${CDIR}/crf.test ${CDIR}/crf.test.out
+${python} ${CDIR}/conv2conll.py < ${CDIR}/crf.test.out > ${CDIR}/crf.test.out.conll
+${perl}   ${CDIR}/conlleval.pl < ${CDIR}/crf.test.out.conll > ${CDIR}/crf.test.out.eval
 
 # end main
 # -----------------------------------------------------------------------------

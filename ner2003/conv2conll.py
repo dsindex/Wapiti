@@ -12,21 +12,15 @@ class Conv:
             if line[0] == '#': continue
             tokens = line.split()
             size = len(tokens)
-            assert(size == 5)
-            morph = tokens[0]
+            assert(size == 6)
+            word = tokens[0]
             tag = tokens[1]
-            etype = tokens[2]
-            pred = tokens[4]
+            chunk = tokens[2]
+            etype = tokens[3]
+            pred = tokens[5]
             if '/' in pred : pred = pred.split('/')[0]
 
-            if '_' in etype:
-                suffix, label = etype.split('_')
-                etype = suffix + '-' + label
-            if '_' in pred:
-                suffix, label = pred.split('_')
-                pred = suffix + '-' + label
-
-            print(morph, tag, 'X', etype, pred)
+            print(word, tag, chunk, etype, pred)
         print('')
 
     def conv(self):

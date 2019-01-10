@@ -1,17 +1,27 @@
+
+U:wrd-1 LLL=%X[-3,0]
+
 U:wrd-1 LL=%X[-2,0]
 U:tag-1 LL=%X[-2,1]
+U:chunk-1 LL=%X[-2,2]
 
 U:wrd-1 L=%X[-1,0]
 U:tag-1 L=%X[-1,1]
+U:chunk-1 L=%X[-1,2]
 
 *:wrd-1 X=%X[0,0]
 *:tag-1 X=%X[0,1]
+*:chunk-1 X=%X[0,2]
 
 U:wrd-1 R=%X[1,0]
 U:tag-1 R=%X[1,1]
+U:chunk-1 R=%X[1,2]
 
 U:wrd-1 RR=%X[2,0]
 U:tag-1 RR=%X[2,1]
+U:chunk-1 RR=%X[2,2]
+
+U:wrd-1 RRR=%X[3,0]
 
 U:tag-2 XR=%X[0,1]/%X[1,1]
 
