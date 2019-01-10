@@ -4,15 +4,14 @@ NER Task 2003
 - CoNLL 2003 shared task 데이터를 가지고 CRF로 테스트해본 결과
 
 - 데이터 구성
-```
-- train 데이터는 약 219554 word
-  - train.txt
-- development 데이터는 약 55044 word
-  - dev.txt
-- test 데이터는 약 50350 word
-  - test.txt
-- 개체명 유형은 'PER(Person), LOC(Location), ORG(Organization), MISC(Miscellaneous)'
-- 데이터 샘플
+  - train 데이터는 약 219554 word
+    - train.txt
+  - development 데이터는 약 55044 word
+    - dev.txt
+  - test 데이터는 약 50350 word
+    - test.txt
+  - 개체명 유형은 'PER(Person), LOC(Location), ORG(Organization), MISC(Miscellaneous)'
+  - 데이터 샘플
 ```
 EU NNP B-NP B-ORG
 rejects VBZ B-VP O
@@ -30,12 +29,15 @@ Blackburn NNP I-NP I-PER
 BRUSSELS NNP B-NP B-LOC
 1996-08-22 CD I-NP O
 ```
+
 - CRF feature 템플릿
   - [crf.pattern](https://github.com/dsindex/Wapiti/blob/master/ner2003/crf.pattern)
+
 - 학습 및 평가
 ```
 $ ./crf.sh -v -v
 ```
+
 - 결과
 ```
 processed 46666 tokens with 5648 phrases; found: 5596 phrases; correct: 4599.

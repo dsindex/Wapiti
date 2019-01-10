@@ -3,16 +3,17 @@ NER Task 2016
 
 - 2016 국어정보처리 경진대회(개체명인식)에서 배포한 학습 및 개발 데이터를 가지고 CRF로 테스트해본 결과
   - gazette 사전은 사용하지 않았다. 
+
 - 데이터 구성
+  - train 데이터는 3549문장(63865어절)
+    - train.txt
+  - development 데이터는 500문장(9101어절)
+    - dev.txt
+  - gazette 사전은 3755 단어
+    - gazette
+  - 개체명 유형은 'DT(date) LC(location) OG(organization) PS(person) TI(time)'
+  - 학습데이터 샘플
 ```
-- train 데이터는 3549문장(63865어절)
-  - train.txt
-- development 데이터는 500문장(9101어절)
-  - dev.txt
-- gazette 사전은 3755 단어
-  - gazette
-- 개체명 유형은 'DT(date) LC(location) OG(organization) PS(person) TI(time)'
-- 학습데이터 샘플
 데이비드	NNP	B_PS
 베컴	NNP	I
 (	SS	O
@@ -49,12 +50,15 @@ MLS	SL	B_OG
 다	EC	O
 .	SF	O
 ```
+
 - CRF feature 템플릿
   - [crf.pattern](https://github.com/dsindex/Wapiti/blob/master/ner2016/crf.pattern)
+
 - 학습 및 평가
 ```
 $ ./crf.sh -v -v
 ```
+
 - 결과
 ```
 processed 17393 tokens with 2190 phrases; found: 1999 phrases; correct: 1603.
