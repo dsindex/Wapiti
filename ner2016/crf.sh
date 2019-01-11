@@ -2,6 +2,27 @@
 
 set -o nounset
 set -o errexit
+function readlink()
+{
+    TARGET_FILE=$2
+    cd `dirname $TARGET_FILE`
+    TARGET_FILE=`basename $TARGET_FILE`
+
+    # Iterate down a (possible) chain of symlinks
+    while [ -L "$TARGET_FILE" ]
+    do
+        TARGET_FILE=`readlink $TARGET_FILE`
+        cd `dirname $TARGET_FILE`
+        TARGET_FILE=`basename $TARGET_FILE`
+    done
+
+    # Compute the canonicalized name by finding the physical path
+    # for the directory we're in and appending the target file.
+    PHYS_DIR=`pwd -P`
+    RESULT=$PHYS_DIR/$TARGET_FILE
+    echo $RESULT
+}
+export -f readlink
 
 VERBOSE_MODE=0
 
@@ -38,7 +59,8 @@ function debug()
   fi
 }
 
-GETOPT=`getopt -o vh --long dry-run,help -n "${PROGNAME}" -- "$@"`
+#GETOPT=`getopt -o vh --long dry-run,help -n "${PROGNAME}" -- "$@"`
+GETOPT=`getopt vh $*`
 if [ $? != 0 ] ; then print_usage_and_exit 1; fi
 
 eval set -- "${GETOPT}"
@@ -78,8 +100,8 @@ PDIR=$(readlink -f $(dirname $(readlink -f ${BASH_SOURCE[0]}))/..)
 # main 
 
 wapiti=${PDIR}/install/bin/wapiti
-python=/usr/bin/python
-perl=/usr/bin/perl
+python='env python'
+perl='env perl'
 
 cp -rf ${CDIR}/train.txt ${CDIR}/crf.train
 cp -rf ${CDIR}/dev.txt ${CDIR}/crf.dev
