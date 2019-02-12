@@ -19,7 +19,7 @@ bin_PROGRAMS = wapiti test_api build_cqdb search_cqdb
 
 wapiti_SOURCES    = wapiti.c
 wapiti_LDFLAGS    = -static -avoid-version -no-undefined
-wapiti_LDADD      = -lwapiti -lm -lpthread
+wapiti_LDADD      = libwapiti.la -lm -lpthread
 wapiti_CFLAGS     = -g -Wall -std=${STD} -Wextra -fPIC ${OPTS}
 
 test_api_SOURCES  = test_api.c
