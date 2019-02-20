@@ -49,6 +49,15 @@ accuracy:  96.37%; precision:  83.44%; recall:  82.26%; FB1:  82.85
 
 ```
 
+- 처리 속도
+```
+* test.txt 데이터의 전체 문장 수 : 3684
+* test.txt 데이터 전체에 대한 label 시간
+  - 0.990447 sec
+  - model loading 시간 제외
+* 문장당 평균 처리 속도 : 0.268 ms  
+```
+
 - 참고
   - [final results of 2003 shared task for NER](https://www.clips.uantwerpen.be/conll2003/ner/)
 
