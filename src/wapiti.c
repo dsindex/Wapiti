@@ -210,7 +210,12 @@ static void dolabel(mdl_t *mdl) {
 	}
 	// Do the labelling
 	info("* Label sequences\n");
+	struct timeval t1, t2;
+	gettimeofday(&t1, NULL);
 	tag_label(mdl, fin, fout);
+	gettimeofday(&t2, NULL);
+	double duration_time = ((t2.tv_sec - t1.tv_sec)*1000000 + t2.tv_usec - t1.tv_usec)/(double)1000000;
+	info("* elapsed time = %lf sec\n", duration_time);
 	info("* Done\n");
 	// And close files
 	if (mdl->opt->input != NULL)
